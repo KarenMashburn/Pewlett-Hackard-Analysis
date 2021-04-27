@@ -110,3 +110,74 @@ group by title
 order by count(title) DESC;
 
 select * from retiring_titles
+
+
+### Deliverable # 2
+
+--emp_no,first_name, last_name, birth_date FROM employees, 
+SELECT 
+	emp_no,
+	first_name,
+	last_name, 
+	birth_date 
+FROM employees;
+
+
+--emp_no, from_date, to_date from dept_emp table
+SELECT
+	emp_no,
+	from_date,
+	to_date
+from dept_emp;
+
+--emp_no, title from titles table
+Select 
+	emp_no,
+	title
+From Titles;
+
+
+
+-- Use Dictinct 
+SELECT DISTINCT ON (emp_no) emp_no,
+	first_name,
+	last_name, 
+	birth_date
+
+INTO emp_mentorship_name
+FROM employees;
+
+
+--emp_no, from_date, to_date from dept_emp table * Distinct on
+SELECT DISTINCT ON (emp_no) emp_no,
+	from_date,
+	to_date
+INTO emp_dates	
+from dept_emp;
+
+--emp_no, title from titles table * distinct on
+SELECT DISTINCT ON (emp_no) emp_no,
+	title
+INTO ment_title	
+From Titles;
+
+
+-- Joining employees and titles tables	
+SELECT 
+	emp_mentorship_name.emp_no, 
+	emp_mentorship_name.first_name, 
+	emp_mentorship_name.last_name,
+	emp_mentorship_name.birth_date,
+	emp_dates.from_date,
+	emp_dates.to_date,
+	ment_title.title
+INTO mentorship_eligibilty
+from emp_mentorship_name
+left JOIN ment_title
+ON emp_mentorship_name.emp_no=ment_title.emp_no 
+LEFT JOIN emp_dates
+ON emp_dates.emp_no=ment_title.emp_no 
+WHERE (birth_date BETWEEN '1965-01-01' AND '1965-12-31')
+ORDER BY emp_no;
+
+select * from mentorship_eligibilty
